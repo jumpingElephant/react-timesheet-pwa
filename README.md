@@ -12,10 +12,13 @@ with [React Router](https://reactrouter.com/en/main): [Adding a Router](https://
 npm install --save react-router-dom
 ```
 
-and with [React Bootstrap](https://react-bootstrap.netlify.com/): [Adding Bootstrap](https://create-react-app.dev/docs/adding-bootstrap)
+and with [React Bootstrap](https://react-bootstrap.github.io/): [Adding Bootstrap](https://create-react-app.dev/docs/adding-bootstrap)
 ```shell
 npm install bootstrap
 ```
+
+- [Grid system](https://react-bootstrap.github.io/docs/layout/grid)
+- [CSS Tricks flexbox guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#flexbox-background)
 
 ## Run Locally
 
