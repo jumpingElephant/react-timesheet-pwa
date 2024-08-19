@@ -21,32 +21,39 @@ const initialTasks = [
 
 const TaskCard = ({task, index, onDelete}) => {
     const [isSwiping, setIsSwiping] = useState(false);
+    const [isDeletionReady, setDeletionReady] = useState(false);
     const [swipeDistance, setSwipeDistance] = useState(0);
 
     const minSwipeDistance = 128; // Minimum swipe distance in pixels
 
     const swipeHandlers = useSwipeable({
         onSwiping: (eventData) => {
+            eventData.event.preventDefault(); // Prevent scrolling
             setIsSwiping(true);
             setSwipeDistance(eventData.deltaX);
+            setDeletionReady(Math.abs(eventData.deltaX) >= minSwipeDistance);
         },
-        onSwiped: () => {
+        onSwiped: (eventData) => {
             if (Math.abs(swipeDistance) >= minSwipeDistance) {
                 onDelete(task.id);
             }
             setIsSwiping(false);
             setSwipeDistance(0);
+            setDeletionReady(false);
         },
-        onTouchStartOrOnMouseDown: () => {
+        onTouchStartOrOnMouseDown: (eventData) => {
+            eventData.event.preventDefault(); // Prevent scrolling
             setIsSwiping(true);
         },
-        onTouchEndOrOnMouseUp: () => {
+        onTouchEndOrOnMouseUp: (eventData) => {
+            eventData.event.preventDefault(); // Prevent scrolling
             setIsSwiping(false);
             setSwipeDistance(0);
+            setDeletionReady(false);
         },
         preventScrollOnSwipe: true,
         preventDefaultTouchmoveEvent: true,
-        trackMouse: true,
+        trackMouse: false,
         swipeDuration: 2000,
         delta: minSwipeDistance,
     });
@@ -54,7 +61,9 @@ const TaskCard = ({task, index, onDelete}) => {
     return (
         <Card
             {...swipeHandlers}
-            className={`mb-1 card-hover border-hover ${index % 2 === 0 ? 'bg-light' : ''} ${isSwiping ? 'swiping' : ''}`}
+            className={`mb-1 card-hover border-hover 
+                ${isDeletionReady ? 'bg-danger' : (index % 2 === 0 ? 'bg-light' : '')}
+                ${isSwiping ? 'swiping' : ''}`}
             style={{transform: `translateX(${swipeDistance}px)`}}
         >
             <Card.Body>
