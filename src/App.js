@@ -17,7 +17,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const dateParam = query.get('date');
-    const date = useMemo(() => (dateParam ? new Date(dateParam) : new Date()), [dateParam]);
+    const date = useMemo(() => dateParam ? new Date(dateParam) : new Date(), [dateParam]);
 
     const [currentDate, setCurrentDate] = useState(date);
 
