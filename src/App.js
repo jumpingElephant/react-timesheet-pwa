@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Routes, useLocation} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ThemeProvider from "react-bootstrap/ThemeProvider";
@@ -8,9 +8,16 @@ import {Col, Row, Stack} from "react-bootstrap";
 import {format, getWeek} from 'date-fns';
 import {FaBackward, FaForward} from 'react-icons/fa';
 
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+}
+
 const Home = () => {
-    const date = new Date();
+    const query = useQuery();
+    const dateParam = query.get('date');
+    const date = dateParam ? new Date(dateParam) : new Date();
     const [header, setHeader] = useState(`${format(date, "E dd.MM.yyyy")} W${getWeek(date)}`);
+
     return (
         <Container fluid className="align-items-center justify-content-center mw-100">
             <Row>
