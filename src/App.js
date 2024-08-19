@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import './App.css';
-import {BrowserRouter as Router, Link, Route, Routes, useLocation} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import {Col, Row, Stack} from "react-bootstrap";
-import {format, getWeek} from 'date-fns';
+import {addDays, format, getWeek, subDays} from 'date-fns';
 import {FaBackward, FaForward} from 'react-icons/fa';
 
 const useQuery = () => {
@@ -14,17 +14,43 @@ const useQuery = () => {
 
 const Home = () => {
     const query = useQuery();
+    const navigate = useNavigate();
+
     const dateParam = query.get('date');
-    const date = dateParam ? new Date(dateParam) : new Date();
-    const [header, setHeader] = useState(`${format(date, "E dd.MM.yyyy")} W${getWeek(date)}`);
+    const date = useMemo(() => dateParam ? new Date(dateParam) : new Date(), [dateParam]);
+
+    const [currentDate, setCurrentDate] = useState(date);
+
+    useEffect(() => {
+        const formattedDate = format(currentDate, "yyyy-MM-dd");
+        navigate(`/?date=${formattedDate}`, {replace: true});
+    }, [currentDate, navigate]);
+
+    const handlePreviousDay = useCallback(() => {
+        setCurrentDate(prevDate => subDays(prevDate, 1));
+    }, []);
+
+    const handleNextDay = useCallback(() => {
+        setCurrentDate(prevDate => addDays(prevDate, 1));
+    }, []);
+
+    const header = `${format(currentDate, "E dd.MM.yyyy")} W${getWeek(currentDate)}`;
 
     return (
         <Container fluid className="align-items-center justify-content-center mw-100">
             <Row>
                 <Stack direction="horizontal" gap={3} className="App-header">
-                    <div className="flex-start"><Button><FaBackward/></Button></div>
+                    <div className="flex-start">
+                        <Button onClick={handlePreviousDay}>
+                            <FaBackward/>
+                        </Button>
+                    </div>
                     <div className="text-center flex-grow-1"><h1>{header}</h1></div>
-                    <div className="flex-end"><Button><FaForward/></Button></div>
+                    <div className="flex-end">
+                        <Button onClick={handleNextDay}>
+                            <FaForward/>
+                        </Button>
+                    </div>
                 </Stack>
             </Row>
             <Row>
