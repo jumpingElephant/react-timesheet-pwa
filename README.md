@@ -3,22 +3,44 @@
 ## Initial Setup
 
 Starting point: [Making a Progressive Web App](https://create-react-app.dev/docs/making-a-progressive-web-app)
+
 ```shell
 npx create-react-app my-app --template cra-template-pwa
 ```
 
 with [React Router](https://reactrouter.com/en/main): [Adding a Router](https://create-react-app.dev/docs/adding-a-router)
+
 ```shell
 npm install --save react-router-dom
 ```
 
-and with [React Bootstrap](https://react-bootstrap.github.io/): [Adding Bootstrap](https://create-react-app.dev/docs/adding-bootstrap)
+and
+with [React Bootstrap](https://react-bootstrap.github.io/docs/components/accordion): [Adding Bootstrap](https://create-react-app.dev/docs/adding-bootstrap)
+
 ```shell
 npm install bootstrap
 ```
 
 - [Grid system](https://react-bootstrap.github.io/docs/layout/grid)
 - [CSS Tricks flexbox guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#flexbox-background)
+
+and with [React Icons](https://react-icons.github.io/react-icons/)
+
+```shell
+npm install react-icons
+```
+
+and with [date-fns](https://date-fns.org/docs/Getting-Started)
+
+```shell
+npm install date-fns
+```
+
+and with [React Swipeable](https://commerce.nearform.com/open-source/react-swipeable/docs/)
+
+```shell
+npm install react-swipeable
+```
 
 ## Run Locally
 
@@ -27,6 +49,7 @@ npm start
 ```
 
 ## Build For Production
+
 ```shell
 npm run build
 ```
