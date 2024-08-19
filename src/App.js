@@ -1,33 +1,92 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {BrowserRouter as Router, Route, Routes, useLocation, useNavigate} from 'react-router-dom';
+import {useSwipeable} from 'react-swipeable';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import ThemeProvider from "react-bootstrap/ThemeProvider";
-import { Col, Nav, Navbar, NavDropdown, Row, Stack, Card } from "react-bootstrap";
-import { addDays, format, getWeek, subDays } from 'date-fns';
-import { FaBackward, FaForward } from 'react-icons/fa';
+import ThemeProvider from 'react-bootstrap/ThemeProvider';
+import {Card, Col, Nav, Navbar, NavDropdown, Row, Stack} from 'react-bootstrap';
+import {addDays, format, getWeek, subDays} from 'date-fns';
+import {FaBackward, FaForward} from 'react-icons/fa';
+import './App.css';
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
-}
+};
 
-const tasks = [
-    { id: 1, title: 'Task 1', start: new Date('2023-10-01T08:00:00'), end: new Date('2023-10-01T10:00:00') },
-    { id: 2, title: 'Task 2', start: new Date('2023-10-01T11:00:00'), end: new Date('2023-10-01T12:00:00') },
-    { id: 3, title: 'Task 3', start: new Date('2023-10-01T13:00:00'), end: new Date('2023-10-01T15:00:00') }
+const initialTasks = [
+    {id: 1, title: 'Task 1', start: new Date('2023-10-01T08:00:00'), end: new Date('2023-10-01T10:00:00')},
+    {id: 2, title: 'Task 2', start: new Date('2023-10-01T11:00:00'), end: new Date('2023-10-01T12:00:00')},
+    {id: 3, title: 'Task 3', start: new Date('2023-10-01T13:00:00'), end: new Date('2023-10-01T15:00:00')},
 ];
+
+const TaskCard = ({task, index, onDelete}) => {
+    const [isSwiping, setIsSwiping] = useState(false);
+    const [swipeStart, setSwipeStart] = useState(false);
+
+    const swipeHandlers = useSwipeable({
+        onSwiping: () => {
+            setSwipeStart(true);
+            setIsSwiping(true);
+        },
+        onSwiped: () => {
+            setIsSwiping(false);
+        },
+        onSwipedLeft: () => {
+            onDelete(task.id);
+        },
+        onTouchStartOrOnMouseDown: () => {
+            setSwipeStart(true);
+        },
+        onTouchEndOrOnMouseUp: () => {
+            setSwipeStart(false);
+            setIsSwiping(false);
+        },
+        preventScrollOnSwipe: true,
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: false,
+        swipeDuration: 1234,
+        delta: 128, // Minimum swipe distance in pixels
+    });
+
+    return (
+        <Card
+            {...swipeHandlers}
+            className={`mb-1 card-hover border-hover ${index % 2 === 0 ? 'bg-light' : ''} ${isSwiping ? 'swiping' : ''}`}
+        >
+            <Card.Body>
+                <Card.Title>{task.title}</Card.Title>
+                <Row className="align-items-center">
+                    <Col>
+                        <strong>Start:</strong> {format(task.start, 'Pp')}
+                    </Col>
+                    <Col>
+                        <strong>End:</strong> {format(task.end, 'Pp')}
+                    </Col>
+                    <Col className="text-end">
+                        <Button variant="primary" className="me-2">
+                            Edit
+                        </Button>
+                        <Button variant="danger" onClick={() => onDelete(task.id)}>
+                            Delete
+                        </Button>
+                    </Col>
+                </Row>
+            </Card.Body>
+        </Card>
+    );
+};
 
 const Home = () => {
     const query = useQuery();
     const navigate = useNavigate();
     const dateParam = query.get('date');
-    const date = useMemo(() => dateParam ? new Date(dateParam) : new Date(), [dateParam]);
+    const date = useMemo(() => (dateParam ? new Date(dateParam) : new Date()), [dateParam]);
     const [currentDate, setCurrentDate] = useState(date);
+    const [tasks, setTasks] = useState(initialTasks);
 
     useEffect(() => {
-        const formattedDate = format(currentDate, "yyyy-MM-dd");
-        navigate(`/?date=${formattedDate}`, { replace: true });
+        const formattedDate = format(currentDate, 'yyyy-MM-dd');
+        navigate(`/?date=${formattedDate}`, {replace: true});
     }, [currentDate, navigate]);
 
     const handlePreviousDay = useCallback(() => {
@@ -42,25 +101,31 @@ const Home = () => {
         setCurrentDate(new Date());
     }, []);
 
-    const header = `${format(currentDate, "E dd.MM.yyyy")} W${getWeek(currentDate)}`;
+    const handleDelete = useCallback(id => {
+        setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+    }, []);
+
+    const header = `${format(currentDate, 'E dd.MM.yyyy')} W${getWeek(currentDate)}`;
 
     return (
         <Container fluid className="align-items-center justify-content-center mw-100">
             <Row className="mb-3 App-header">
                 <Col className="d-flex justify-content-between align-items-center">
                     <Button variant="primary" className="nav-button" onClick={handlePreviousDay}>
-                        <FaBackward />
+                        <FaBackward/>
                     </Button>
                     <Stack className="flex-grow-1 text-center mx-3">
                         <div className="w-100">
                             <h1 className="m-0">{header}</h1>
                         </div>
                         <Row xs={4} className="justify-content-center">
-                            <Button variant="success" className="mt-2" onClick={handleToday}>Today</Button>
+                            <Button variant="success" className="mt-2" onClick={handleToday}>
+                                Today
+                            </Button>
                         </Row>
                     </Stack>
                     <Button variant="primary" className="nav-button" onClick={handleNextDay}>
-                        <FaForward />
+                        <FaForward/>
                     </Button>
                 </Col>
             </Row>
@@ -86,19 +151,7 @@ const Home = () => {
                         </Row>
                         <h2>Today's Tasks:</h2>
                         {tasks.map((task, index) => (
-                            <Card key={task.id} className={`mb-1 card-hover border-hover ${index % 2 === 0 ? 'bg-light' : ''}`}>
-                                <Card.Body>
-                                    <Card.Title>{task.title}</Card.Title>
-                                    <Row className="align-items-center">
-                                        <Col><strong>Start:</strong> {format(task.start, "Pp")}</Col>
-                                        <Col><strong>End:</strong> {format(task.end, "Pp")}</Col>
-                                        <Col className="text-end">
-                                            <Button variant="primary" className="me-2">Edit</Button>
-                                            <Button variant="danger">Delete</Button>
-                                        </Col>
-                                    </Row>
-                                </Card.Body>
-                            </Card>
+                            <TaskCard key={task.id} task={task} index={index} onDelete={handleDelete}/>
                         ))}
                     </Col>
                 </Stack>
@@ -116,16 +169,13 @@ const About = () => (
 
 const App = () => {
     return (
-        <ThemeProvider
-            breakpoints={['xxl', 'xl', 'lg', 'md', 'sm', 'xs']}
-            minBreakpoint="xs"
-        >
+        <ThemeProvider breakpoints={['xxl', 'xl', 'lg', 'md', 'sm', 'xs']} minBreakpoint="xs">
             <Router>
                 <Container fluid className="align-items-center justify-content-center mw-100">
                     <Navbar expand="lg" className="bg-body-tertiary" sticky="top">
                         <Container>
                             <Navbar.Brand href="#home">Timesheet</Navbar.Brand>
-                            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav className="me-auto">
                                     <Nav.Link href="/">Home</Nav.Link>
@@ -134,7 +184,7 @@ const App = () => {
                                         <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                         <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                                         <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                        <NavDropdown.Divider />
+                                        <NavDropdown.Divider/>
                                         <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                                     </NavDropdown>
                                 </Nav>
@@ -142,8 +192,8 @@ const App = () => {
                         </Container>
                     </Navbar>
                     <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/about" element={<About/>}/>
                     </Routes>
                 </Container>
             </Router>
