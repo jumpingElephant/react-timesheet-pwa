@@ -4,5 +4,5 @@ updates:
     directory: "/" # Location of the package manifests
     schedule:
       interval: "weekly" # Options: "daily", "weekly", "monthly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 19
     rebase-strategy: "auto"
