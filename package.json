@@ -17,7 +17,7 @@
     "react-swipeable": "^7.0.1",
     "web-vitals": "^4.2.3",
     "workbox-background-sync": "^6.6.0",
-    "workbox-broadcast-update": "^6.6.0",
+    "workbox-broadcast-update": "^7.1.0",
     "workbox-cacheable-response": "^6.6.0",
     "workbox-core": "^6.6.0",
     "workbox-expiration": "^7.1.0",
