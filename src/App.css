@@ -30,3 +30,15 @@
         transform: rotate(360deg);
     }
 }
+
+@media (min-width: 768px) {
+    .nav-button {
+        width: 100px; /* Adjust the width as desired for medium screens and above */
+    }
+}
+
+@media (min-width: 992px) {
+    .nav-button {
+        width: 120px; /* Adjust the width as desired for large screens and above */
+    }
+}
