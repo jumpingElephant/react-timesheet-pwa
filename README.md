@@ -42,6 +42,13 @@ and with [React Swipeable](https://commerce.nearform.com/open-source/react-swipe
 npm install react-swipeable
 ```
 
+and with [idb - IndexedDB with usability](https://github.com/jakearchibald/idb#readme) ([mdn: IndexedDbb](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB))
+
+```shell
+npm install idb
+```
+
+
 ## Run Locally
 
 ```shell

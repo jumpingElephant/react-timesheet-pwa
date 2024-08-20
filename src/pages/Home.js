@@ -6,24 +6,34 @@ import {Col, Row, Stack} from 'react-bootstrap';
 import {addDays, format, getWeek, subDays} from 'date-fns';
 import {FaBackward, FaForward} from 'react-icons/fa';
 import TaskCard from '../components/TaskCard';
+import {deleteTaskFromIndexedDbById, loadTasksFromIndexedDb, saveTasksToIndexedDb} from "../utils/indexedDB";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
 
-const initialTasks = [
-    {id: 1, title: 'Task 1', start: new Date('2023-10-01T08:00:00'), end: new Date('2023-10-01T10:00:00')},
-    {id: 2, title: 'Task 2', start: new Date('2023-10-01T11:00:00'), end: new Date('2023-10-01T12:00:00')},
-    {id: 3, title: 'Task 3', start: new Date('2023-10-01T13:00:00'), end: new Date('2023-10-01T15:00:00')},
-];
-
 const Home = () => {
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        const fetchTasks = async () => {
+            const loadedTasks = await loadTasksFromIndexedDb();
+            console.log(`loadedTasks.length=${loadedTasks.length}`);
+            setTasks(loadedTasks);
+        };
+        fetchTasks();
+    }, []);
+
+    // Save tasks to IndexedDB on change
+    useEffect(() => {
+        saveTasksToIndexedDb(tasks);
+    }, [tasks]);
+
     const query = useQuery();
     const navigate = useNavigate();
     const dateParam = query.get('date');
     const date = useMemo(() => (dateParam ? new Date(dateParam) : new Date()), [dateParam]);
     const [currentDate, setCurrentDate] = useState(date);
-    const [tasks, setTasks] = useState(initialTasks);
 
     useEffect(() => {
         const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -42,9 +52,11 @@ const Home = () => {
         setCurrentDate(new Date());
     }, []);
 
-    const handleDelete = useCallback(id => {
-        setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
-    }, []);
+    const handleDelete = useCallback(async (id) => {
+        const updatedTasks = tasks.filter(task => task.id !== id);
+        setTasks(updatedTasks);
+        await deleteTaskFromIndexedDbById(id);
+    }, [tasks]);
 
     const header = `${format(currentDate, 'E dd.MM.yyyy')} W${getWeek(currentDate)}`;
 

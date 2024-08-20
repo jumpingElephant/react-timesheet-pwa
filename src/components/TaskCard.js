@@ -59,9 +59,6 @@ const TaskCard = ({task, index, onDelete}) => {
                         <strong>End:</strong> {format(task.end, 'Pp')}
                     </Col>
                     <Col className="text-end">
-                        <Button variant="primary" className="me-2">
-                            Edit
-                        </Button>
                         <Button variant="danger" onClick={() => onDelete(task.id)}>
                             Delete
                         </Button>
