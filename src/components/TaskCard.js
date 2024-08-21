@@ -16,7 +16,7 @@ const TaskCard = ({task, index, onDelete}) => {
             setSwipeDistance(eventData.deltaX);
             setDeletionReady(Math.abs(eventData.deltaX) >= minSwipeDistance);
         },
-        onSwiped: (eventData) => {
+        onSwiped: () => {
             if (Math.abs(swipeDistance) >= minSwipeDistance) {
                 onDelete(task.id);
             }
