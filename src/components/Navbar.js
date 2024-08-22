@@ -2,6 +2,7 @@ import React from 'react';
 import {Container, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
 
 const Navbar = () => {
+    // noinspection HtmlUnknownTarget
     return (
         <>
             <BootstrapNavbar expand={false} className="bg-body-tertiary" sticky="top">
@@ -19,6 +20,7 @@ const Navbar = () => {
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
                                 <Nav.Link href="/">Home</Nav.Link>
+                                <Nav.Link href="/projects">Projects</Nav.Link>
                                 <Nav.Link href="/about">About</Nav.Link>
                                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>

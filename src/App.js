@@ -5,15 +5,16 @@ import Container from 'react-bootstrap/Container';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import About from './pages/About';
-import {initializeTasksInIndexedDb} from './utils/indexedDB';
+import {initializeObjectStoresInIndexedDb} from './utils/indexedDB';
 import './App.css';
+import ProjectList from "./pages/Projects";
 
 const App = () => {
     console.log('App started');
 
     useEffect(() => {
         // Initialize tasks in IndexedDB once when the component mounts
-        initializeTasksInIndexedDb();
+        initializeObjectStoresInIndexedDb();
     }, []);
 
     return (
@@ -23,6 +24,7 @@ const App = () => {
                     <Navbar/>
                     <Routes>
                         <Route path="/" element={<Home/>}/>
+                        <Route path="/projects" element={<ProjectList/>}/>
                         <Route path="/about" element={<About/>}/>
                     </Routes>
                 </Container>
