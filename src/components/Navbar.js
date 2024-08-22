@@ -1,5 +1,6 @@
 import React from 'react';
 import {Container, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
+import {initializeObjectStoresInIndexedDb} from "../utils/indexedDB";
 
 const Navbar = () => {
     // noinspection HtmlUnknownTarget
@@ -22,6 +23,10 @@ const Navbar = () => {
                                 <Nav.Link href="/">Home</Nav.Link>
                                 <Nav.Link href="/projects">Projects</Nav.Link>
                                 <Nav.Link href="/about">About</Nav.Link>
+                                <Nav.Link onClick={() => {
+                                    initializeObjectStoresInIndexedDb();
+                                    window.location.reload();
+                                }}>Reset IndexedDB</Nav.Link>
                                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
                                     <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                                     <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

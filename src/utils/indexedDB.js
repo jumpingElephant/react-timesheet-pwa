@@ -111,6 +111,7 @@ export const initializeObjectStoresInIndexedDb = async () => {
         {// Initialize projects store
             const tx = db.transaction(PROJECTS_STORE_NAME, 'readwrite');
             const projectsStore = tx.objectStore(PROJECTS_STORE_NAME);
+            await projectsStore.clear();
             if ((await projectsStore.getAll()).length === 0) {
                 for (const project of initialProjects) {
                     await projectsStore.put(project);
@@ -121,6 +122,7 @@ export const initializeObjectStoresInIndexedDb = async () => {
         {// Initialize tasks store
             const tx = db.transaction(TASKS_STORE_NAME, 'readwrite');
             const tasksStore = tx.objectStore(TASKS_STORE_NAME);
+            await tasksStore.clear();
             if ((await tasksStore.getAll()).length === 0) {
                 for (const task of initialTasks) {
                     await tasksStore.put(task);
