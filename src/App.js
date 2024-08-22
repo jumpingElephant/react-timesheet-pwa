@@ -3,11 +3,11 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import Container from 'react-bootstrap/Container';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
+import TaskList from './pages/TaskList';
 import About from './pages/About';
 import {initializeObjectStoresInIndexedDb} from './utils/indexedDB';
 import './App.css';
-import ProjectList from "./pages/Projects";
+import ProjectList from "./pages/ProjectList";
 
 const App = () => {
     console.log('App started');
@@ -23,7 +23,8 @@ const App = () => {
                 <Container fluid className="align-items-center justify-content-center mw-100">
                     <Navbar/>
                     <Routes>
-                        <Route path="/" element={<Home/>}/>
+                        <Route path="/" element={<TaskList/>}/>
+                        <Route path="/tasks" element={<TaskList/>}/>
                         <Route path="/projects" element={<ProjectList/>}/>
                         <Route path="/about" element={<About/>}/>
                     </Routes>

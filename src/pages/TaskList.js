@@ -12,7 +12,7 @@ const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
 
-const Home = () => {
+const TaskList = () => {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
@@ -37,7 +37,7 @@ const Home = () => {
 
     useEffect(() => {
         const formattedDate = format(currentDate, 'yyyy-MM-dd');
-        navigate(`/?date=${formattedDate}`, {replace: true});
+        navigate(`/tasks?date=${formattedDate}`, {replace: true});
     }, [currentDate, navigate]);
 
     const handlePreviousDay = useCallback(() => {
@@ -113,4 +113,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default TaskList;
