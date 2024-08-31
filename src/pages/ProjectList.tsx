@@ -2,10 +2,11 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import {Col, Row, Stack} from 'react-bootstrap';
-import {deleteProjectFromIndexedDbById, loadProjectsFromIndexedDb, saveProjectsToIndexedDb} from "../utils/indexedDB";
+import {deleteProjectFromIndexedDbById, loadProjectsFromIndexedDb, saveProjectsToIndexedDb,} from '../utils/indexedDB';
+import {Project} from "../models/Project";
 
-const ProjectList = () => {
-    const [projects, setProjects] = useState([]);
+const ProjectList: React.FC = () => {
+    const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
         const fetchProjects = async () => {
@@ -16,19 +17,18 @@ const ProjectList = () => {
         fetchProjects();
     }, []);
 
-    // Save projects to IndexedDB on change
     useEffect(() => {
         saveProjectsToIndexedDb(projects);
     }, [projects]);
 
-    // const query = useQuery();
-    // const navigate = useNavigate();
-
-    const handleDelete = useCallback(async (id) => {
-        const updatedProjects = projects.filter(project => project.id !== id);
-        setProjects(updatedProjects);
-        await deleteProjectFromIndexedDbById(id);
-    }, [projects]);
+    const handleDelete = useCallback(
+        async (id: number) => {
+            const updatedProjects = projects.filter((project) => project.id !== id);
+            setProjects(updatedProjects);
+            await deleteProjectFromIndexedDbById(id);
+        },
+        [projects]
+    );
 
     return (
         <Container fluid className="align-items-center justify-content-center mw-100">
@@ -45,12 +45,12 @@ const ProjectList = () => {
                 <Stack direction="horizontal" gap={3}>
                     <Col className="w-75">
                         <Row className="mb-3 column-gap-2">
-                            <Col xs={6} sm={6} md={4} lg={3}>
+                            <Col xs={6} sm={6} md={4}>
                                 <Row className="flex-fill">
                                     <Button>Create</Button>
                                 </Row>
                             </Col>
-                            <Col xs={6} sm={6} md={4} lg={3}>
+                            <Col xs={6} sm={6} md={4}>
                                 <Row className="flex-fill">
                                     <Button>Include Archived</Button>
                                 </Row>
@@ -58,7 +58,9 @@ const ProjectList = () => {
                         </Row>
                         <h2>Today's Tasks:</h2>
                         {projects.map((project) => (
-                            <Button key={project.id} onClick={() => handleDelete(project.id)}>{project.name}</Button>
+                            <Button key={project.id} onClick={() => handleDelete(project.id)}>
+                                {project.name}
+                            </Button>
                         ))}
                     </Col>
                 </Stack>

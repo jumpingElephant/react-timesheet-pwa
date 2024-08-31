@@ -2,8 +2,15 @@ import React, {useState} from 'react';
 import {useSwipeable} from 'react-swipeable';
 import {Button, Card, Col, Row} from 'react-bootstrap';
 import {format} from 'date-fns';
+import {Task} from "../models/Task";
 
-const TaskCard = ({task, index, onDelete}) => {
+interface TaskCardProps {
+    task: Task;
+    index: number;
+    onDelete: (id: number) => void;
+}
+
+const TaskCard: React.FC<TaskCardProps> = ({task, index, onDelete}) => {
     const [isSwiping, setIsSwiping] = useState(false);
     const [isDeletionReady, setDeletionReady] = useState(false);
     const [swipeDistance, setSwipeDistance] = useState(0);
@@ -18,7 +25,9 @@ const TaskCard = ({task, index, onDelete}) => {
         },
         onSwiped: () => {
             if (Math.abs(swipeDistance) >= minSwipeDistance) {
-                onDelete(task.id);
+                onDelete(task.id ?? (() => {
+                    throw new Error("Task ID is undefined");
+                })());
             }
             setIsSwiping(false);
             setSwipeDistance(0);
@@ -35,7 +44,6 @@ const TaskCard = ({task, index, onDelete}) => {
             setDeletionReady(false);
         },
         preventScrollOnSwipe: true,
-        preventDefaultTouchmoveEvent: true,
         trackMouse: false,
         swipeDuration: 2000,
         delta: minSwipeDistance,
@@ -44,22 +52,24 @@ const TaskCard = ({task, index, onDelete}) => {
     return (
         <Card
             {...swipeHandlers}
-            className={`mb-1 card-hover border-hover ${
-                isDeletionReady ? 'bg-danger' : index % 2 === 0 ? 'bg-light' : ''
-            } ${isSwiping ? 'swiping' : ''}`}
+            className={`mb-1 card-hover border-hover ${isDeletionReady ? 'bg-danger' : index % 2 === 0 ? 'bg-light' : ''} ${
+                isSwiping ? 'swiping' : ''
+            }`}
             style={{transform: `translateX(${swipeDistance}px)`}}
         >
             <Card.Body>
                 <Card.Title>{task.title}</Card.Title>
                 <Row className="align-items-center">
                     <Col>
-                        <strong>Start:</strong> {format(task.start, 'Pp')}
+                        <strong>Start:</strong> {task.start ? format(task.start, 'Pp') : 'Not Specified'}
                     </Col>
                     <Col>
-                        <strong>End:</strong> {format(task.end, 'Pp')}
+                        <strong>End:</strong> {task.end ? format(task.end, 'Pp') : 'Not Specified'}
                     </Col>
                     <Col className="text-end">
-                        <Button variant="danger" onClick={() => onDelete(task.id)}>
+                        <Button variant="danger" onClick={() => onDelete(task.id ?? (() => {
+                            throw new Error("Task ID is undefined");
+                        })())}>
                             Delete
                         </Button>
                     </Col>

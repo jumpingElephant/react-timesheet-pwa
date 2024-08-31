@@ -6,14 +6,15 @@ import {Col, Row, Stack} from 'react-bootstrap';
 import {addDays, format, getWeek, subDays} from 'date-fns';
 import {FaBackward, FaForward} from 'react-icons/fa';
 import TaskCard from '../components/TaskCard';
-import {deleteTaskFromIndexedDbById, loadTasksFromIndexedDb, saveTasksToIndexedDb} from "../utils/indexedDB";
+import {deleteTaskFromIndexedDbById, loadTasksFromIndexedDb, saveTasksToIndexedDb} from '../utils/indexedDB';
+import {Task} from "../models/Task";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);
 };
 
-const TaskList = () => {
-    const [tasks, setTasks] = useState([]);
+const TaskList: React.FC = () => {
+    const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -24,7 +25,6 @@ const TaskList = () => {
         fetchTasks();
     }, []);
 
-    // Save tasks to IndexedDB on change
     useEffect(() => {
         saveTasksToIndexedDb(tasks);
     }, [tasks]);
@@ -41,22 +41,25 @@ const TaskList = () => {
     }, [currentDate, navigate]);
 
     const handlePreviousDay = useCallback(() => {
-        setCurrentDate(prevDate => subDays(prevDate, 1));
+        setCurrentDate((prevDate) => subDays(prevDate, 1));
     }, []);
 
     const handleNextDay = useCallback(() => {
-        setCurrentDate(prevDate => addDays(prevDate, 1));
+        setCurrentDate((prevDate) => addDays(prevDate, 1));
     }, []);
 
     const handleToday = useCallback(() => {
         setCurrentDate(new Date());
     }, []);
 
-    const handleDelete = useCallback(async (id) => {
-        const updatedTasks = tasks.filter(task => task.id !== id);
-        setTasks(updatedTasks);
-        await deleteTaskFromIndexedDbById(id);
-    }, [tasks]);
+    const handleDelete = useCallback(
+        async (id: number) => {
+            const updatedTasks = tasks.filter((task) => task.id !== id);
+            setTasks(updatedTasks);
+            await deleteTaskFromIndexedDbById(id);
+        },
+        [tasks]
+    );
 
     const header = `${format(currentDate, 'E dd.MM.yyyy')} W${getWeek(currentDate)}`;
 
@@ -86,17 +89,17 @@ const TaskList = () => {
                 <Stack direction="horizontal" gap={3}>
                     <Col className="w-75">
                         <Row className="mb-3">
-                            <Col xs={6} sm={6} md={4} lg={3}>
+                            <Col xs={6} sm={6} md={4}>
                                 <Row className="flex-fill">
                                     <Button>Check in now</Button>
                                 </Row>
                             </Col>
-                            <Col xs={6} sm={6} md={4} lg={3}>
+                            <Col xs={6} sm={6} md={4}>
                                 <Row className="flex-fill">
                                     <Button>Check out now</Button>
                                 </Row>
                             </Col>
-                            <Col xs={6} sm={6} md={4} lg={3}>
+                            <Col xs={6} sm={6} md={4}>
                                 <Row className="flex-fill">
                                     <Button>Switch Task</Button>
                                 </Row>
