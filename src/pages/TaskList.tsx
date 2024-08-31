@@ -6,7 +6,12 @@ import {Col, Row, Stack} from 'react-bootstrap';
 import {addDays, format, getWeek, subDays} from 'date-fns';
 import {FaBackward, FaForward} from 'react-icons/fa';
 import TaskCard from '../components/TaskCard';
-import {deleteTaskFromIndexedDbById, loadTasksFromIndexedDb, saveTasksToIndexedDb} from '../utils/indexedDB';
+import {
+    deleteTaskFromIndexedDbById,
+    initializeObjectStoresInIndexedDb,
+    loadTasksFromIndexedDb,
+    saveTasksToIndexedDb
+} from '../utils/indexedDB';
 import {Task} from "../models/Task";
 
 const useQuery = () => {
@@ -89,19 +94,27 @@ const TaskList: React.FC = () => {
                 <Stack direction="horizontal" gap={3}>
                     <Col className="w-75">
                         <Row className="mb-3">
-                            <Col xs={6} sm={6} md={4}>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button>Check in now</Button>
                                 </Row>
                             </Col>
-                            <Col xs={6} sm={6} md={4}>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button>Check out now</Button>
                                 </Row>
                             </Col>
-                            <Col xs={6} sm={6} md={4}>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button>Switch Task</Button>
+                                </Row>
+                            </Col>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
+                                <Row className="flex-fill">
+                                    <Button onClick={() => {
+                                        initializeObjectStoresInIndexedDb();
+                                        window.location.reload();
+                                    }}>Reset IndexedDB</Button>
                                 </Row>
                             </Col>
                         </Row>

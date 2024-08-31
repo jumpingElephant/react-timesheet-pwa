@@ -51,7 +51,7 @@ const TaskCard: React.FC<TaskCardProps> = ({task, index, onDelete}) => {
 
     return (
         <Card
-            {...swipeHandlers}
+            //{...swipeHandlers}
             className={`mb-1 card-hover border-hover ${isDeletionReady ? 'bg-danger' : index % 2 === 0 ? 'bg-light' : ''} ${
                 isSwiping ? 'swiping' : ''
             }`}

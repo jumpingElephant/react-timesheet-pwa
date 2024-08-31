@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import {Col, Row, Stack} from 'react-bootstrap';
 import {deleteProjectFromIndexedDbById, loadProjectsFromIndexedDb, saveProjectsToIndexedDb,} from '../utils/indexedDB';
 import {Project} from "../models/Project";
+import ProjectCard from "../components/ProjectCard";
 
 const ProjectList: React.FC = () => {
     const [projects, setProjects] = useState<Project[]>([]);
@@ -57,10 +58,8 @@ const ProjectList: React.FC = () => {
                             </Col>
                         </Row>
                         <h2>Today's Tasks:</h2>
-                        {projects.map((project) => (
-                            <Button key={project.id} onClick={() => handleDelete(project.id)}>
-                                {project.name}
-                            </Button>
+                        {projects.map((project, index) => (
+                            <ProjectCard key={project.id} project={project} index={index} onDelete={handleDelete}/>
                         ))}
                     </Col>
                 </Stack>
