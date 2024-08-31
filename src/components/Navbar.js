@@ -8,7 +8,16 @@ const Navbar = () => {
         <>
             <BootstrapNavbar expand={false} className="bg-body-tertiary" sticky="top">
                 <Container>
-                    <BootstrapNavbar.Brand href="#home">Timesheet</BootstrapNavbar.Brand>
+                    <BootstrapNavbar.Brand href="#home">
+                        <img
+                            alt=""
+                            src="/img/timesheet-icon-transparent.png"
+                            width="30"
+                            height="30"
+                            className="d-inline-block align-top"
+                        />{' '}
+                        Timesheet
+                    </BootstrapNavbar.Brand>
                     <BootstrapNavbar.Toggle aria-controls="offcanvasNavbar"/>
                     <BootstrapNavbar.Offcanvas
                         id="offcanvasNavbar"
