@@ -6,13 +6,9 @@ import {Col, Row, Stack} from 'react-bootstrap';
 import {addDays, format, getWeek, subDays} from 'date-fns';
 import {FaBackward, FaForward} from 'react-icons/fa';
 import TaskCard from '../components/TaskCard';
-import {
-    deleteTaskFromIndexedDbById,
-    loadTasksFromIndexedDb,
-    populateInitialData,
-    saveTasksToIndexedDb
-} from '../utils/indexedDB';
 import {Task} from "../models/Task";
+import {deleteTaskFromIndexedDbById, loadTasksFromIndexedDb, saveTasksToIndexedDb} from "../db/tasksDb";
+import {populateInitialData} from "../db/initializeDb";
 
 const useQuery = () => {
     return new URLSearchParams(useLocation().search);

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
-import {populateInitialData} from '../utils/indexedDB';
+import {populateInitialData} from "../db/initializeDb";
 
 const Navbar: React.FC = () => {
     return (

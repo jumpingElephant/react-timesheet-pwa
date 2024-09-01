@@ -2,16 +2,17 @@ import React, {useCallback, useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import {Col, Row, Stack} from 'react-bootstrap';
-import {deleteProjectFromIndexedDbById, loadProjectsFromIndexedDb, saveProjectsToIndexedDb,} from '../utils/indexedDB';
 import {Project} from "../models/Project";
 import ProjectCard from "../components/ProjectCard";
+import {deleteProjectFromIndexedDbById, loadProjectsFromIndexedDb, saveProjectsToIndexedDb} from "../db/projectsDb";
+import {populateInitialData} from "../db/initializeDb";
 
 const ProjectList: React.FC = () => {
     const [projects, setProjects] = useState<Project[]>([]);
 
     useEffect(() => {
         const fetchProjects = async () => {
-            const loadedProjects = await loadProjectsFromIndexedDb();
+            const loadedProjects: Project[] = await loadProjectsFromIndexedDb();
             console.log(`loadedProjects.length=${loadedProjects.length}`);
             setProjects(loadedProjects);
         };
@@ -46,14 +47,22 @@ const ProjectList: React.FC = () => {
                 <Stack direction="horizontal" gap={3}>
                     <Col className="w-75">
                         <Row className="mb-3 column-gap-2">
-                            <Col xs={6} sm={6} md={4}>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button>Create</Button>
                                 </Row>
                             </Col>
-                            <Col xs={6} sm={6} md={4}>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button>Include Archived</Button>
+                                </Row>
+                            </Col>
+                            <Col xs={6} sm={6} md={4} lg={3} xl={2}>
+                                <Row className="flex-fill">
+                                    <Button onClick={() => {
+                                        populateInitialData();
+                                        window.location.reload();
+                                    }}>Reset IndexedDB</Button>
                                 </Row>
                             </Col>
                         </Row>

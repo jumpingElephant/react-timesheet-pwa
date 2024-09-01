@@ -5,9 +5,9 @@ import Container from 'react-bootstrap/Container';
 import Navbar from './components/Navbar';
 import TaskList from './pages/TaskList';
 import About from './pages/About';
-import {initializeObjectStoresInIndexedDb} from './utils/indexedDB';
 import './App.css';
 import ProjectList from "./pages/ProjectList";
+import {initializeObjectStoresInIndexedDb} from "./db/initializeDb";
 
 const App = () => {
     console.log('App started');
