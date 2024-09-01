@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import {Col, Row, Stack} from 'react-bootstrap';
 import {Project} from "../models/Project";
 import ProjectCard from "../components/ProjectCard";
-import {deleteProjectFromIndexedDbById, loadProjectsFromIndexedDb, saveProjectsToIndexedDb} from "../db/projectsDb";
+import {loadProjectsFromIndexedDb, saveProjectsToIndexedDb} from "../db/projectsDb";
 import {populateInitialData} from "../db/initializeDb";
 
 const ProjectList: React.FC = () => {
@@ -22,15 +22,6 @@ const ProjectList: React.FC = () => {
     useEffect(() => {
         saveProjectsToIndexedDb(projects);
     }, [projects]);
-
-    const handleDelete = useCallback(
-        async (id: number) => {
-            const updatedProjects = projects.filter((project) => project.id !== id);
-            setProjects(updatedProjects);
-            await deleteProjectFromIndexedDbById(id);
-        },
-        [projects]
-    );
 
     return (
         <Container fluid className="align-items-center justify-content-center mw-100">
@@ -60,15 +51,15 @@ const ProjectList: React.FC = () => {
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button onClick={() => {
-                                        populateInitialData();
-                                        window.location.reload();
+                                        populateInitialData()
+                                            .then(() => window.location.reload());
                                     }}>Reset IndexedDB</Button>
                                 </Row>
                             </Col>
                         </Row>
-                        <h2>Today's Tasks:</h2>
+                        <h2>Projects</h2>
                         {projects.map((project, index) => (
-                            <ProjectCard key={project.id} project={project} index={index} onDelete={handleDelete}/>
+                            <ProjectCard key={project.id} project={project} index={index}/>
                         ))}
                     </Col>
                 </Stack>

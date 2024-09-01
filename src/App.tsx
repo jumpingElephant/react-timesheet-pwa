@@ -8,6 +8,7 @@ import About from './pages/About';
 import './App.css';
 import ProjectList from "./pages/ProjectList";
 import {initializeObjectStoresInIndexedDb} from "./db/initializeDb";
+import ProjectDetails from "./pages/ProjectDetails";
 
 const App = () => {
     console.log('App started');
@@ -26,6 +27,7 @@ const App = () => {
                         <Route path="/" element={<TaskList/>}/>
                         <Route path="/tasks" element={<TaskList/>}/>
                         <Route path="/projects" element={<ProjectList/>}/>
+                        <Route path="/projects/:projectId" element={<ProjectDetails/>}/>
                         <Route path="/about" element={<About/>}/>
                     </Routes>
                 </Container>

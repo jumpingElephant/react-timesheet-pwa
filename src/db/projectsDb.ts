@@ -18,6 +18,20 @@ export const saveProjectsToIndexedDb = async (projects: Project[]): Promise<void
     );
 };
 
+export const saveProjectToIndexedDb = async (project: Project): Promise<void> => {
+    await executeTransaction(
+        PROJECTS_STORE_NAME,
+        'readwrite',
+        async (store) => {
+            if (store.put) {
+                return store.put(project);
+            } else {
+                throw new Error("The put method is not available in readwrite mode.");
+            }
+        }
+    );
+};
+
 export const loadProjectsFromIndexedDb = async (): Promise<Project[]> => {
     return executeTransaction<Project[]>(
         PROJECTS_STORE_NAME,
@@ -25,6 +39,17 @@ export const loadProjectsFromIndexedDb = async (): Promise<Project[]> => {
         async (store) => {
             const projects = await store.getAll();
             return projects as Project[];
+        }
+    );
+};
+
+export const loadProjectFromIndexedDb = async (projectId: number): Promise<Project> => {
+    return executeTransaction<Project>(
+        PROJECTS_STORE_NAME,
+        'readonly',
+        async (store) => {
+            const project = await store.get(projectId);
+            return project as Project;
         }
     );
 };

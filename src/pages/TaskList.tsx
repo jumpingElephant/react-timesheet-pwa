@@ -108,8 +108,8 @@ const TaskList: React.FC = () => {
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button onClick={() => {
-                                        populateInitialData();
-                                        window.location.reload();
+                                        populateInitialData()
+                                            .then(() => window.location.reload());
                                     }}>Reset IndexedDB</Button>
                                 </Row>
                             </Col>
