@@ -20,12 +20,12 @@ const DB_VERSION = 1;
 const TASKS_STORE_NAME = 'tasks';
 const PROJECTS_STORE_NAME = 'projects';
 
+// Initial sample data
 const initialProjects: Omit<IProject, 'id'>[] = [
     {name: 'Project 1'},
     {name: 'Project 2'},
     {name: 'Project 3'}
 ];
-
 const initialTasks: Omit<ITask, 'id'>[] = [
     {title: 'Task 1', projectId: 1, start: new Date('2023-10-01T08:00:00'), end: new Date('2023-10-01T10:00:00')},
     {title: 'Task 2', projectId: 2, start: new Date('2023-10-01T11:00:00'), end: new Date('2023-10-01T12:00:00')},
@@ -117,38 +117,45 @@ export const deleteProjectFromIndexedDbById = async (projectId: number): Promise
     }
 };
 
+// Function to initialize only the object stores without populating them with initial data
 export const initializeObjectStoresInIndexedDb = async (): Promise<void> => {
     const db = await initDb();
-
     try {
-        // Initialize projects store
+        await db.transaction([PROJECTS_STORE_NAME, TASKS_STORE_NAME], 'readwrite').done;
+    } catch (error) {
+        console.error('Failed to initialize object stores in IndexedDB', error);
+        throw error;
+    }
+};
+
+// Separate function to populate the object stores with initial data
+export const populateInitialData = async (): Promise<void> => {
+    const db = await initDb();
+    try {
+        // Clear and populate projects store
         {
             const tx = db.transaction(PROJECTS_STORE_NAME, 'readwrite');
             const projectsStore = tx.objectStore(PROJECTS_STORE_NAME);
-            await projectsStore.clear();
-            if ((await projectsStore.getAll()).length === 0) {
-                for (const projectData of initialProjects) {
-                    const project = new Project(projectData.name);
-                    await projectsStore.put(project);
-                }
+            await projectsStore.clear(); // Clear the store before populating
+            for (const projectData of initialProjects) {
+                const project = new Project(projectData.name);
+                await projectsStore.put(project);
             }
             await tx.done;
         }
-        // Initialize tasks store
+        // Clear and populate tasks store
         {
             const tx = db.transaction(TASKS_STORE_NAME, 'readwrite');
             const tasksStore = tx.objectStore(TASKS_STORE_NAME);
-            await tasksStore.clear();
-            if ((await tasksStore.getAll()).length === 0) {
-                for (const taskData of initialTasks) {
-                    const task = new Task(taskData.projectId, undefined, taskData.title, taskData.start, taskData.end);
-                    await tasksStore.put(task);
-                }
+            await tasksStore.clear(); // Clear the store before populating
+            for (const taskData of initialTasks) {
+                const task = new Task(taskData.projectId, undefined, taskData.title, taskData.start, taskData.end);
+                await tasksStore.put(task);
             }
             await tx.done;
         }
     } catch (error) {
-        console.error('Failed to initialize object stores in IndexedDB', error);
+        console.error('Failed to populate initial data in IndexedDB', error);
         throw error;
     }
 };
