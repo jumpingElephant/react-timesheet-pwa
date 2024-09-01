@@ -8,8 +8,8 @@ import {FaBackward, FaForward} from 'react-icons/fa';
 import TaskCard from '../components/TaskCard';
 import {
     deleteTaskFromIndexedDbById,
-    initializeObjectStoresInIndexedDb,
     loadTasksFromIndexedDb,
+    populateInitialData,
     saveTasksToIndexedDb
 } from '../utils/indexedDB';
 import {Task} from "../models/Task";
@@ -112,7 +112,7 @@ const TaskList: React.FC = () => {
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
                                     <Button onClick={() => {
-                                        initializeObjectStoresInIndexedDb();
+                                        populateInitialData();
                                         window.location.reload();
                                     }}>Reset IndexedDB</Button>
                                 </Row>

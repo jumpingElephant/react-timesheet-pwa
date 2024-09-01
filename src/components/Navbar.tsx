@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
-import {initializeObjectStoresInIndexedDb} from '../utils/indexedDB';
+import {populateInitialData} from '../utils/indexedDB';
 
 const Navbar: React.FC = () => {
     return (
@@ -30,7 +30,7 @@ const Navbar: React.FC = () => {
                                 <Nav.Link href="/about">About</Nav.Link>
                                 <Nav.Link
                                     onClick={() => {
-                                        initializeObjectStoresInIndexedDb();
+                                        populateInitialData();
                                         window.location.reload();
                                     }}
                                 >
