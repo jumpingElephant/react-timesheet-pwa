@@ -60,3 +60,9 @@ npm start
 ```shell
 npm run build
 ```
+
+## Lint Locally
+
+```shell
+eslint . --max-warnings=0 && npm run build
+```
