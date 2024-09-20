@@ -26,7 +26,7 @@ const ProjectDetails: React.FC = () => {
         if (project) {
             saveProjectToIndexedDb(project);
         }
-    }, []);
+    }, [project]);
 
     const navigate = useNavigate();
     const handleDelete = useCallback(
@@ -34,7 +34,7 @@ const ProjectDetails: React.FC = () => {
             await deleteProjectFromIndexedDbById(projectId)
                 .then(() => navigate('/projects'));
         },
-        [project, projectId, navigate]
+        [projectId, navigate]
     );
     const handleNavigateToProjectList = () => {
         navigate('/projects');
