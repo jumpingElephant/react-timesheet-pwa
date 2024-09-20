@@ -20,7 +20,7 @@ const ProjectDetails: React.FC = () => {
             }
         };
         fetchProject();
-    }, []);
+    }, [projectId]);
 
     useEffect(() => {
         if (project) {
@@ -28,15 +28,14 @@ const ProjectDetails: React.FC = () => {
         }
     }, [project]);
 
+    const navigate = useNavigate();
     const handleDelete = useCallback(
         async () => {
             await deleteProjectFromIndexedDbById(projectId)
                 .then(() => navigate('/projects'));
         },
-        [project]
+        [project, projectId, navigate]
     );
-
-    const navigate = useNavigate();
     const handleNavigateToProjectList = () => {
         navigate('/projects');
     };
