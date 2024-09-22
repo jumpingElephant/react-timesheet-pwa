@@ -33,9 +33,11 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
 
-      # Increment version
+      # Increment version and commit with custom message
       - name: Increment version
-        run: node bump-version.js
+        run: |
+          new_version=$(npm version patch --message "Bump version to %s\n\nskip-checks: true" | grep "v" | tr -d '\n')
+          echo "New version: $new_version"
 
       # Push the changes
       - name: Push changes
