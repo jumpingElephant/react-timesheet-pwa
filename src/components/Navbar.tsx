@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
+import {Container, Image, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
 import {populateInitialData} from "../db/initializeDb";
 
 const Navbar: React.FC = () => {
@@ -8,9 +8,9 @@ const Navbar: React.FC = () => {
             <BootstrapNavbar expand={false} className="bg-body-tertiary" sticky="top">
                 <Container>
                     <BootstrapNavbar.Brand href="#home">
-                        <img
+                        <Image
                             alt=""
-                            src="/img/timesheet-icon-transparent.png"
+                            src="react-timesheet-pwa/img/timesheet-icon-transparent.png"
                             width="30"
                             height="30"
                             className="d-inline-block align-top"
@@ -26,9 +26,9 @@ const Navbar: React.FC = () => {
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
-                                <Nav.Link href="/">Tasks</Nav.Link>
-                                <Nav.Link href="/projects">Projects</Nav.Link>
-                                <Nav.Link href="/about">About</Nav.Link>
+                                <Nav.Link href="tasks">Tasks</Nav.Link>
+                                <Nav.Link href="projects">Projects</Nav.Link>
+                                <Nav.Link href="about">About</Nav.Link>
                                 <Nav.Link
                                     onClick={() => {
                                         populateInitialData();

@@ -25,10 +25,10 @@ const App = () => {
                     <Navbar/>
                     <Routes>
                         <Route path="/" element={<TaskList/>}/>
-                        <Route path="/tasks" element={<TaskList/>}/>
-                        <Route path="/projects" element={<ProjectList/>}/>
-                        <Route path="/projects/:projectId" element={<ProjectDetails/>}/>
-                        <Route path="/about" element={<About/>}/>
+                        <Route path="tasks" element={<TaskList/>}/>
+                        <Route path="projects" element={<ProjectList/>}/>
+                        <Route path="projects/:projectId" element={<ProjectDetails/>}/>
+                        <Route path="about" element={<About/>}/>
                     </Routes>
                 </Container>
             </Router>
