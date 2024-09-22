@@ -37,9 +37,12 @@ jobs:
       - name: Increment version
         run: node bump-version.js
 
+      # Set up authentication for pushing changes
+      - name: Set up authentication
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+
       # Push the changes
       - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push origin ${{ github.ref }} --tags
+          git push origin HEAD:refs/heads/master --tags
