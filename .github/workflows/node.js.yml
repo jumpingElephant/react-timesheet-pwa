@@ -41,6 +41,12 @@ jobs:
 
       - run: npm run build --if-present
 
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        run: npm run deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # Push the changes
       - name: Push changes
         env:
