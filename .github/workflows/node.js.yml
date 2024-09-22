@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
           fetch-depth: 0  # Ensure full history is fetched
 
       - name: Use Node.js ${{ matrix.node-version }}
