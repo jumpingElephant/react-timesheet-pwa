@@ -27,6 +27,12 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
 
+      # Configure Git to use GitHub Actions default user details
+      - name: Configure Git user
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
       # Increment version
       - name: Increment version
         run: node bump-version.js
