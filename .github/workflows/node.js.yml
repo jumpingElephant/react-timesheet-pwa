@@ -38,7 +38,7 @@ jobs:
         run: |
           new_version=$(npm version patch)
           version=${new_version//v/}  # Remove 'v' prefix if present
-          git commit --amend -m "Bump version to ${version}" -m "" -m "" -m "" -m "skip-checks: true"
+          git commit --amend -m "Bump version to ${version}" -m "" -m "" -m "skip-checks: true" --cleanup=verbatim
 
       # Push the changes
       - name: Push changes
