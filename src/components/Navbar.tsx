@@ -21,7 +21,8 @@ const Navbar: React.FC = () => {
                     <BootstrapNavbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"
                                                placement="end">
                         <Offcanvas.Header closeButton>
-                            <Offcanvas.Title id="offcanvasNavbarLabel">Menu</Offcanvas.Title>
+                            <Offcanvas.Title id="offcanvasNavbarLabel">Timesheet</Offcanvas.Title>
+                            <Offcanvas.Header>v{process.env.REACT_APP_VERSION}</Offcanvas.Header>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">

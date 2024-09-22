@@ -58,9 +58,11 @@ const ProjectList: React.FC = () => {
                             </Col>
                         </Row>
                         <h2>Projects</h2>
-                        {projects.map((project, index) => (
-                            <ProjectCard key={project.id} project={project} index={index}/>
-                        ))}
+                        <Col>
+                            {projects.map((project, index) => (
+                                <ProjectCard key={project.id} project={project} index={index}/>
+                            ))}
+                        </Col>
                     </Col>
                 </Stack>
             </Row>

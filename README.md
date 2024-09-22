@@ -48,6 +48,12 @@ and with [idb - IndexedDB with usability](https://github.com/jakearchibald/idb#r
 npm install idb
 ```
 
+leverage the react-app-rewired package to override the default Webpack config, for providing the app version
+
+```shell
+npm install --save-dev react-app-rewired
+```
+
 
 ## Run Locally
 
