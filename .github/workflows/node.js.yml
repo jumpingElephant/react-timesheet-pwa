@@ -36,8 +36,9 @@ jobs:
       # Increment version and commit with custom message
       - name: Increment version
         run: |
-          new_version=$(npm version patch --message "Bump version to %s\n\nskip-checks: true" | grep "v" | tr -d '\n')
-          echo "New version: $new_version"
+          new_version=$(npm version patch)
+          version=${new_version//v/}  # Remove 'v' prefix if present
+          git commit --amend -m "Bump version to ${version}" -m "" -m "" -m "skip-checks: true"
 
       # Push the changes
       - name: Push changes
