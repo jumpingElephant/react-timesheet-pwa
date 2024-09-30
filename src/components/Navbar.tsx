@@ -10,7 +10,7 @@ const Navbar: React.FC = () => {
                     <BootstrapNavbar.Brand href="#home">
                         <Image
                             alt=""
-                            src="react-timesheet-pwa/img/timesheet-icon-transparent.png"
+                            src="img/timesheet-icon-transparent.png"
                             width="30"
                             height="30"
                             className="d-inline-block align-top"
