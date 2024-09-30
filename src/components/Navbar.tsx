@@ -3,6 +3,9 @@ import {Container, Image, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas
 import {populateInitialData} from "../db/initializeDb";
 
 const Navbar: React.FC = () => {
+    const isGitHubPages = window.location.hostname === "<username>.github.io";
+    const imagePath = isGitHubPages ? "img/timesheet-icon-transparent.png" : process.env.PUBLIC_URL + '/img/timesheet-icon-transparent.png';
+
     return (
         <>
             <BootstrapNavbar expand={false} className="bg-body-tertiary" sticky="top">
@@ -10,7 +13,7 @@ const Navbar: React.FC = () => {
                     <BootstrapNavbar.Brand href="#home">
                         <Image
                             alt=""
-                            src="img/timesheet-icon-transparent.png"
+                            src={imagePath}
                             width="30"
                             height="30"
                             className="d-inline-block align-top"
@@ -29,12 +32,10 @@ const Navbar: React.FC = () => {
                                 <Nav.Link href="tasks">Tasks</Nav.Link>
                                 <Nav.Link href="projects">Projects</Nav.Link>
                                 <Nav.Link href="about">About</Nav.Link>
-                                <Nav.Link
-                                    onClick={() => {
-                                        populateInitialData();
-                                        window.location.reload();
-                                    }}
-                                >
+                                <Nav.Link onClick={() => {
+                                    populateInitialData();
+                                    window.location.reload();
+                                }}>
                                     Reset IndexedDB
                                 </Nav.Link>
                                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
