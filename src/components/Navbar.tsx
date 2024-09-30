@@ -1,16 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Container, Image, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import {populateInitialData} from "../db/initializeDb";
 
 const Navbar: React.FC = () => {
     const isGitHubPages = window.location.hostname === "<username>.github.io";
     const imagePath = isGitHubPages ? "img/timesheet-icon-transparent.png" : process.env.PUBLIC_URL + '/img/timesheet-icon-transparent.png';
 
+    // State to control Offcanvas visibility
+    const [show, setShow] = useState(false);
+
+    // Handlers to show and hide Offcanvas
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
         <>
             <BootstrapNavbar expand={false} className="bg-body-tertiary" sticky="top">
                 <Container>
-                    <BootstrapNavbar.Brand href="#home">
+                    <BootstrapNavbar.Brand as={Link} to="/">
                         <Image
                             alt=""
                             src={imagePath}
@@ -20,30 +28,36 @@ const Navbar: React.FC = () => {
                         />{' '}
                         Timesheet
                     </BootstrapNavbar.Brand>
-                    <BootstrapNavbar.Toggle aria-controls="offcanvasNavbar"/>
+                    <BootstrapNavbar.Toggle aria-controls="offcanvasNavbar" onClick={handleShow}/>
                     <BootstrapNavbar.Offcanvas id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"
-                                               placement="end">
+                                               placement="end" show={show} onHide={handleClose}>
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">Timesheet</Offcanvas.Title>
                             <Offcanvas.Header>v{process.env.REACT_APP_VERSION}</Offcanvas.Header>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
-                                <Nav.Link href="tasks">Tasks</Nav.Link>
-                                <Nav.Link href="projects">Projects</Nav.Link>
-                                <Nav.Link href="about">About</Nav.Link>
-                                <Nav.Link onClick={() => {
-                                    populateInitialData();
-                                    window.location.reload();
-                                }}>
+                                <Nav.Link as={Link} to="/tasks" onClick={handleClose}>Tasks</Nav.Link>
+                                <Nav.Link as={Link} to="/projects" onClick={handleClose}>Projects</Nav.Link>
+                                <Nav.Link as={Link} to="/about" onClick={handleClose}>About</Nav.Link>
+                                <Nav.Link
+                                    onClick={() => {
+                                        populateInitialData();
+                                        window.location.reload();
+                                    }}
+                                >
                                     Reset IndexedDB
                                 </Nav.Link>
                                 <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/action/3.1"
+                                                      onClick={handleClose}>Action</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/action/3.2" onClick={handleClose}>Another
+                                        action</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/action/3.3"
+                                                      onClick={handleClose}>Something</NavDropdown.Item>
                                     <NavDropdown.Divider/>
-                                    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/action/3.4" onClick={handleClose}>Separated
+                                        link</NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>
                         </Offcanvas.Body>
