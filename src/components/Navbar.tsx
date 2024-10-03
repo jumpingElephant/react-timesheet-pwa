@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Container, Image, Nav, Navbar as BootstrapNavbar, NavDropdown, Offcanvas} from 'react-bootstrap';
+import {Container, Image, Nav, Navbar as BootstrapNavbar, Offcanvas} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 import {populateInitialData} from "../db/initializeDb";
 
@@ -43,22 +43,9 @@ const Navbar: React.FC = () => {
                                 <Nav.Link
                                     onClick={() => {
                                         populateInitialData();
-                                        window.location.reload();
+                                        handleClose();
                                     }}
-                                >
-                                    Reset IndexedDB
-                                </Nav.Link>
-                                <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                                    <NavDropdown.Item as={Link} to="/action/3.1"
-                                                      onClick={handleClose}>Action</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/action/3.2" onClick={handleClose}>Another
-                                        action</NavDropdown.Item>
-                                    <NavDropdown.Item as={Link} to="/action/3.3"
-                                                      onClick={handleClose}>Something</NavDropdown.Item>
-                                    <NavDropdown.Divider/>
-                                    <NavDropdown.Item as={Link} to="/action/3.4" onClick={handleClose}>Separated
-                                        link</NavDropdown.Item>
-                                </NavDropdown>
+                                >Reset IndexedDB</Nav.Link>
                             </Nav>
                         </Offcanvas.Body>
                     </BootstrapNavbar.Offcanvas>
