@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import {Col, Row, Stack} from 'react-bootstrap';
@@ -9,19 +9,26 @@ import {populateInitialData} from "../db/initializeDb";
 
 const ProjectList: React.FC = () => {
     const [projects, setProjects] = useState<Project[]>([]);
+    const [triggerUpdate, setTriggerUpdate] = useState(0);
+
+    const fetchProjects = useCallback(async () => {
+        const loadedProjects: Project[] = await loadProjectsFromIndexedDb();
+        console.log(`loadedProjects.length=${loadedProjects.length}`);
+        setProjects(loadedProjects);
+    }, []);
 
     useEffect(() => {
-        const fetchProjects = async () => {
-            const loadedProjects: Project[] = await loadProjectsFromIndexedDb();
-            console.log(`loadedProjects.length=${loadedProjects.length}`);
-            setProjects(loadedProjects);
-        };
         fetchProjects();
-    }, []);
+    }, [fetchProjects, triggerUpdate]);
 
     useEffect(() => {
         saveProjectsToIndexedDb(projects);
     }, [projects]);
+
+    const handleReset = useCallback(async () => {
+        await populateInitialData();
+        setTriggerUpdate(prev => prev + 1); // Trigger re-fetch of projects
+    }, []);
 
     return (
         <Container fluid className="align-items-center justify-content-center mw-100">
@@ -50,10 +57,7 @@ const ProjectList: React.FC = () => {
                             </Col>
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
-                                    <Button onClick={() => {
-                                        populateInitialData()
-                                            .then(() => window.location.reload());
-                                    }}>Reset IndexedDB</Button>
+                                    <Button onClick={handleReset}>Reset IndexedDB</Button>
                                 </Row>
                             </Col>
                         </Row>

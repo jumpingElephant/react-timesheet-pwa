@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Container, Image, Nav, Navbar as BootstrapNavbar, Offcanvas} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
-import {populateInitialData} from "../db/initializeDb";
 
 const Navbar: React.FC = () => {
     const isGitHubPages = window.location.hostname === "<username>.github.io";
@@ -40,12 +39,6 @@ const Navbar: React.FC = () => {
                                 <Nav.Link as={Link} to="/tasks" onClick={handleClose}>Tasks</Nav.Link>
                                 <Nav.Link as={Link} to="/projects" onClick={handleClose}>Projects</Nav.Link>
                                 <Nav.Link as={Link} to="/about" onClick={handleClose}>About</Nav.Link>
-                                <Nav.Link
-                                    onClick={() => {
-                                        populateInitialData();
-                                        handleClose();
-                                    }}
-                                >Reset IndexedDB</Nav.Link>
                             </Nav>
                         </Offcanvas.Body>
                     </BootstrapNavbar.Offcanvas>

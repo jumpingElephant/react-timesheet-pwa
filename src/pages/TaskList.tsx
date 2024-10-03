@@ -16,15 +16,17 @@ const useQuery = () => {
 
 const TaskList: React.FC = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [triggerUpdate, setTriggerUpdate] = useState(0);
+
+    const fetchTasks = useCallback(async () => {
+        const loadedTasks = await loadTasksFromIndexedDb();
+        console.log(`loadedTasks.length=${loadedTasks.length}`);
+        setTasks(loadedTasks);
+    }, []);
 
     useEffect(() => {
-        const fetchTasks = async () => {
-            const loadedTasks = await loadTasksFromIndexedDb();
-            console.log(`loadedTasks.length=${loadedTasks.length}`);
-            setTasks(loadedTasks);
-        };
         fetchTasks();
-    }, []);
+    }, [fetchTasks, triggerUpdate]);
 
     useEffect(() => {
         saveTasksToIndexedDb(tasks);
@@ -61,6 +63,11 @@ const TaskList: React.FC = () => {
         },
         [tasks]
     );
+
+    const handleReset = useCallback(async () => {
+        await populateInitialData();
+        setTriggerUpdate(prev => prev + 1); // Trigger re-fetch of tasks
+    }, []);
 
     const header = `${format(currentDate, 'E dd.MM.yyyy')} W${getWeek(currentDate)}`;
 
@@ -107,10 +114,7 @@ const TaskList: React.FC = () => {
                             </Col>
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
-                                    <Button onClick={() => {
-                                        populateInitialData()
-                                            .then(() => window.location.reload());
-                                    }}>Reset IndexedDB</Button>
+                                    <Button onClick={handleReset}>Reset IndexedDB</Button>
                                 </Row>
                             </Col>
                         </Row>
