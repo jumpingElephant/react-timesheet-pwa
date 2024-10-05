@@ -73,15 +73,15 @@ const TaskList: React.FC = () => {
     const handleUpload = useCallback(async () => {
         // Generate file content from code
         const textContent = 'This is some text content generated from code.';
-        const jsonData = JSON.stringify({ key: 'value', foo: 'bar' });
+        const jsonData = JSON.stringify({key: 'value', foo: 'bar'});
 
         // Create Blob objects from the content
-        const textBlob = new Blob([textContent], { type: 'text/plain' });
-        const jsonBlob = new Blob([jsonData], { type: 'application/json' });
+        const textBlob = new Blob([textContent], {type: 'text/plain'});
+        const jsonBlob = new Blob([jsonData], {type: 'application/json'});
 
         // Create File objects from Blobs
-        const textFile = new File([textBlob], 'example.txt', { type: 'text/plain' });
-        const jsonFile = new File([jsonBlob], 'data.json', { type: 'application/json' });
+        const textFile = new File([textBlob], 'example.txt', {type: 'text/plain'});
+        const jsonFile = new File([jsonBlob], 'data.json', {type: 'application/json'});
 
         // Array of files to share
         const filesArray = [textFile, jsonFile];
@@ -89,7 +89,7 @@ const TaskList: React.FC = () => {
         if (navigator.canShare) {
             if (navigator.canShare({files: filesArray})) {
                 navigator.share({
-                    files: [],
+                    files: filesArray,
                     title: 'Share files example',
                     text: 'These are some files I want to share with you',
                 })
