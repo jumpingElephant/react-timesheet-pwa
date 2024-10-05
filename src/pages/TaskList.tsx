@@ -69,6 +69,48 @@ const TaskList: React.FC = () => {
         setTriggerUpdate(prev => prev + 1); // Trigger re-fetch of tasks
     }, []);
 
+    const [message, setMessage] = useState<string>('--');
+    const handleUpload = useCallback(async () => {
+        // Generate file content from code
+        const textContent = 'This is some text content generated from code.';
+        const jsonData = JSON.stringify({ key: 'value', foo: 'bar' });
+
+        // Create Blob objects from the content
+        const textBlob = new Blob([textContent], { type: 'text/plain' });
+        const jsonBlob = new Blob([jsonData], { type: 'application/json' });
+
+        // Create File objects from Blobs
+        const textFile = new File([textBlob], 'example.txt', { type: 'text/plain' });
+        const jsonFile = new File([jsonBlob], 'data.json', { type: 'application/json' });
+
+        // Array of files to share
+        const filesArray = [textFile, jsonFile];
+
+        if (navigator.canShare) {
+            if (navigator.canShare({files: filesArray})) {
+                navigator.share({
+                    files: [],
+                    title: 'Share files example',
+                    text: 'These are some files I want to share with you',
+                })
+                    .then(() => {
+                        console.log('Files shared successfully');
+                        setMessage('Files shared successfully');
+                    })
+                    .catch((error) => {
+                        console.error('Error sharing files:', error);
+                        setMessage('Error sharing files:');
+                    });
+            } else {
+                console.error('Your system doesn\'t support sharing these files.');
+                setMessage('Your system doesn\'t support sharing these files.');
+            }
+        } else {
+            console.error('Your system doesn\'t support sharing files.');
+            setMessage('Your system doesn\'t support sharing files.');
+        }
+    }, []);
+
     const header = `${format(currentDate, 'E dd.MM.yyyy')} W${getWeek(currentDate)}`;
 
     return (
@@ -109,7 +151,7 @@ const TaskList: React.FC = () => {
                             </Col>
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
                                 <Row className="flex-fill">
-                                    <Button>Switch Task</Button>
+                                    <Button onClick={handleUpload}>Backup</Button>
                                 </Row>
                             </Col>
                             <Col xs={6} sm={6} md={4} lg={3} xl={2}>
@@ -118,6 +160,7 @@ const TaskList: React.FC = () => {
                                 </Row>
                             </Col>
                         </Row>
+                        <h2>{message}</h2>
                         <h2>Today's Tasks:</h2>
                         {tasks.map((task, index) => (
                             <TaskCard key={task.id} task={task} index={index} onDelete={handleDelete}/>
