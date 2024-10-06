@@ -72,26 +72,22 @@ const TaskList: React.FC = () => {
     const [message, setMessage] = useState<string>('--');
     const handleUpload = useCallback(async () => {
         // Generate file content from code
-        const textContent = 'This is some text content generated from code.';
         const jsonData = JSON.stringify({key: 'value', foo: 'bar'});
 
         // Create Blob objects from the content
-        const textBlob = new Blob([textContent], {type: 'text/plain'});
         const jsonBlob = new Blob([jsonData], {type: 'application/json'});
 
         // Create File objects from Blobs
-        const textFile = new File([textBlob], 'example.txt', {type: 'text/plain'});
-        const jsonFile = new File([jsonBlob], 'data.json', {type: 'application/json'});
+        const currentDate = formatDate(new Date());
+        const fileName = `react-timesheet-pwa-backup-${currentDate}.json`;
+        const jsonFile = new File([jsonBlob], fileName, {type: 'application/json'});
 
         // Array of files to share
-        const filesArray = [textFile, jsonFile];
-
         if (navigator.canShare) {
-            if (navigator.canShare({files: filesArray})) {
+            if (navigator.canShare({files: [jsonFile]})) {
                 navigator.share({
-                    files: filesArray,
-                    title: 'Share files example',
-                    text: 'These are some files I want to share with you',
+                    files: [jsonFile],
+                    title: 'Export',
                 })
                     .then(() => {
                         console.log('Files shared successfully');
@@ -170,6 +166,13 @@ const TaskList: React.FC = () => {
             </Row>
         </Container>
     );
+};
+
+const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
 };
 
 export default TaskList;
