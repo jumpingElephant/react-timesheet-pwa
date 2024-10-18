@@ -1,6 +1,6 @@
 {
   "name": "react-pwa",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "private": true,
   "homepage": "https://jumpingElephant.github.io/react-timesheet-pwa",
   "dependencies": {
