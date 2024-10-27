@@ -1,4 +1,5 @@
 # Progressive Web App with React
+[![pages-build-deployment](https://github.com/jumpingElephant/react-timesheet-pwa/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jumpingElephant/react-timesheet-pwa/actions/workflows/pages/pages-build-deployment)
 
 ## Initial Setup
 
