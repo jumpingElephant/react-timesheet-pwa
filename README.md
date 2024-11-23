@@ -1,6 +1,20 @@
 # Progressive Web App with React
 [![pages-build-deployment](https://github.com/jumpingElephant/react-timesheet-pwa/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jumpingElephant/react-timesheet-pwa/actions/workflows/pages/pages-build-deployment)
 
+## Install node.js
+
+### Install [Node Version Manager](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
+
+```shell
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+```
+
+### Install latest node.js LTS version
+
+```shell
+nvm install --lts
+```
+
 ## Initial Setup
 
 Starting point: [Making a Progressive Web App](https://create-react-app.dev/docs/making-a-progressive-web-app)
@@ -55,6 +69,12 @@ leverage the react-app-rewired package to override the default Webpack config, f
 npm install --save-dev react-app-rewired
 ```
 
+
+## Build
+
+```shell
+npm install
+```
 
 ## Run Locally
 
