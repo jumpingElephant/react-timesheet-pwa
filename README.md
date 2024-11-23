@@ -15,6 +15,31 @@ wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 nvm install --lts
 ```
 
+## Build
+
+```shell
+npm install
+```
+
+## Run Locally
+
+```shell
+npm start
+```
+
+## Build For Production
+
+```shell
+npm run build
+```
+
+## Lint Locally
+
+```shell
+eslint . --max-warnings=0 && npm run build
+```
+
+
 ## Initial Setup
 
 Starting point: [Making a Progressive Web App](https://create-react-app.dev/docs/making-a-progressive-web-app)
@@ -67,29 +92,4 @@ leverage the react-app-rewired package to override the default Webpack config, f
 
 ```shell
 npm install --save-dev react-app-rewired
-```
-
-
-## Build
-
-```shell
-npm install
-```
-
-## Run Locally
-
-```shell
-npm start
-```
-
-## Build For Production
-
-```shell
-npm run build
-```
-
-## Lint Locally
-
-```shell
-eslint . --max-warnings=0 && npm run build
 ```
