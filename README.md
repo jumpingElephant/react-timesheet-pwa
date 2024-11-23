@@ -6,7 +6,7 @@
 ### Install [Node Version Manager](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script)
 
 ```shell
-wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 ```
 
 ### Install latest node.js LTS version
