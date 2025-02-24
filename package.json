@@ -10,7 +10,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.9",
-    "@types/react-dom": "^19.0.3",
+    "@types/react-dom": "^19.0.4",
     "bootstrap": "^5.3.3",
     "date-fns": "^4.0.0",
     "idb": "^8.0.2",
