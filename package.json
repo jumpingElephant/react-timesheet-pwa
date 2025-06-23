@@ -11,7 +11,7 @@
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
-    "bootstrap": "^5.3.6",
+    "bootstrap": "^5.3.7",
     "date-fns": "^4.0.0",
     "nth-check": "^2.1.1",
     "idb": "^8.0.3",
