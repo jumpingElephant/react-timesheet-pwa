@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/react-timesheet-pwa/static/css/main.81d06610.css",
-    "main.js": "/react-timesheet-pwa/static/js/main.fcc62db4.js",
+    "main.css": "/react-timesheet-pwa/static/css/main.6cca5cf4.css",
+    "main.js": "/react-timesheet-pwa/static/js/main.7ff93b56.js",
     "static/js/453.478bc26c.chunk.js": "/react-timesheet-pwa/static/js/453.478bc26c.chunk.js",
     "service-worker.js": "/react-timesheet-pwa/service-worker.js",
     "index.html": "/react-timesheet-pwa/index.html",
-    "main.81d06610.css.map": "/react-timesheet-pwa/static/css/main.81d06610.css.map",
-    "main.fcc62db4.js.map": "/react-timesheet-pwa/static/js/main.fcc62db4.js.map",
+    "main.6cca5cf4.css.map": "/react-timesheet-pwa/static/css/main.6cca5cf4.css.map",
+    "main.7ff93b56.js.map": "/react-timesheet-pwa/static/js/main.7ff93b56.js.map",
     "453.478bc26c.chunk.js.map": "/react-timesheet-pwa/static/js/453.478bc26c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.81d06610.css",
-    "static/js/main.fcc62db4.js"
+    "static/css/main.6cca5cf4.css",
+    "static/js/main.7ff93b56.js"
   ]
 }
